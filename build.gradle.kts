@@ -110,7 +110,8 @@ bukkit {
     version = project.version.toString()
 
     authors = listOf(
-        "Esoteric Enderman"
+        "Esoteric Enderman",
+        "rolyPolyVole",
     )
 
     website = "https://github.com/sh-dima/throwable-spawn-eggs"

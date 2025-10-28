@@ -91,6 +91,14 @@ tasks {
     jar {
         enabled = false
     }
+
+    runServer {
+        if (!project.hasProperty("noplayit")) {
+            downloadPlugins {
+                github("playit-cloud", "playit-minecraft-plugin", "v0.1.4", "playit-minecraft-plugin.jar")
+            }
+        }
+    }
 }
 
 bukkit {

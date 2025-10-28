@@ -1,6 +1,7 @@
 package io.gitlab.shdima.throwables
 
 import org.bstats.bukkit.Metrics
+import org.bukkit.GameMode
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.ThrownExpBottle
@@ -45,6 +46,9 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
                 }
             }
         }
+
+        val player = event.player
+        if (player.gameMode != GameMode.CREATIVE && player.gameMode != GameMode.SPECTATOR) item.amount--
 
         event.isCancelled = true
     }

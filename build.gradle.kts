@@ -83,7 +83,7 @@ tasks {
         archiveClassifier = ""
 
         enableAutoRelocation = true
-        relocationPrefix = "org.example.project.dependencies"
+        relocationPrefix = "io.gitlab.shdima.throwables.dependencies"
 
         minimizeJar = true
     }

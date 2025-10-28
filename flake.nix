@@ -1,5 +1,5 @@
 {
-	description = "A template repository for Minecraft plugins";
+	description = "A Minecraft Paper plugin that makes every spawn egg throwable for a more fun way to spawn mobs";
 
 	inputs = {
 		nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";

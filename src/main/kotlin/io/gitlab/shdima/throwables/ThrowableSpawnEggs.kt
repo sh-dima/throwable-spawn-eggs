@@ -45,6 +45,8 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
                 }
             }
         }
+
+        event.isCancelled = true
     }
 
     @EventHandler

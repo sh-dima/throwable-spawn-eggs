@@ -31,6 +31,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
 
     @EventHandler
     private fun onThrowEgg(event: PlayerInteractEvent) {
+        if (!event.action.isRightClick) return
         val item = event.item ?: return
 
         val type = item.type

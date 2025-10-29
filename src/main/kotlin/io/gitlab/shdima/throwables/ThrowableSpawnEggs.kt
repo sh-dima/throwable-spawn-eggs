@@ -51,6 +51,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
     @EventHandler
     private fun onThrowEgg(event: PlayerInteractEvent) {
         if (!event.action.isRightClick) return
+        if (event.hand != EquipmentSlot.HAND) return
         val item = event.item ?: return
 
         if (!isSpawnEgg(item)) return
@@ -61,6 +62,8 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
         if (shouldConsumeItem(player)) {
             item.amount--
         }
+
+        player.swingMainHand()
 
         event.isCancelled = true
     }
@@ -97,7 +100,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
 
     private fun throwSpawnEgg(player: Player, item: ItemStack, hand: EquipmentSlot) {
         val velocity = calculateThrowVelocity(player)
-        val markedItem = createMarkedEggItem(item)
+        val markedItem = markEggAsThrowable(item)
 
         player.launchProjectile(Egg::class.java, velocity) {
             it.item = markedItem
@@ -117,7 +120,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
         )).multiply(POWER).add(player.velocity)
     }
 
-    private fun createMarkedEggItem(item: ItemStack): ItemStack {
+    private fun markEggAsThrowable(item: ItemStack): ItemStack {
         return item.clone().apply {
             amount = 1
 

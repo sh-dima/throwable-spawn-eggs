@@ -89,7 +89,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
 
     private fun isThrowableEgg(item: ItemStack): Boolean {
         val meta = item.itemMeta as? SpawnEggMeta ?: return false
-        return meta.persistentDataContainer[key, PersistentDataType.BOOLEAN] ?: false
+        return meta.persistentDataContainer[key, PersistentDataType.BOOLEAN] == true
     }
 
     private fun getEntityTypeFromEgg(item: ItemStack): EntityType? {

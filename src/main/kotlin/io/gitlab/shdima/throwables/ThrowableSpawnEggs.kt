@@ -1,3 +1,4 @@
+
 package io.gitlab.shdima.throwables
 
 import com.destroystokyo.paper.event.entity.ThrownEggHatchEvent
@@ -8,10 +9,13 @@ import org.bukkit.Sound
 import org.bukkit.SoundCategory
 import org.bukkit.entity.Egg
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SpawnEggMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
@@ -20,8 +24,9 @@ import kotlin.random.Random
 
 private const val POWER = 1.5
 private const val VARIATION = 0.0172275
+private const val BSTATS_PLUGIN_ID = 27754
 
-fun triangle(min: Double, max: Double): Double {
+private fun triangle(min: Double, max: Double): Double {
     return min + max * (Random.nextDouble() - Random.nextDouble())
 }
 
@@ -32,9 +37,12 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
 
     override fun onEnable() {
         server.pluginManager.registerEvents(this, this)
+        initializeMetrics()
+    }
 
+    private fun initializeMetrics() {
         try {
-            Metrics(this, 27754)
+            Metrics(this, BSTATS_PLUGIN_ID)
         } catch (exception: Exception) {
             exception.printStackTrace()
         }
@@ -45,39 +53,14 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
         if (!event.action.isRightClick) return
         val item = event.item ?: return
 
-        val type = item.type
-
-        if (!type.toString().endsWith("_SPAWN_EGG")) return
+        if (!isSpawnEgg(item)) return
 
         val player = event.player
-        val direction = player.location.direction
-        val velocity = direction.add(
-            Vector(
-                triangle(0.0, VARIATION),
-                triangle(0.0, VARIATION),
-                triangle(0.0, VARIATION),
-            )
-        ).multiply(POWER).add(player.velocity)
+        throwSpawnEgg(player, item, event.hand!!)
 
-        player.launchProjectile<Egg>(Egg::class.java, velocity) {
-            it.item = item.clone().apply {
-                amount = 1
-
-                editMeta(SpawnEggMeta::class.java) {
-                    it.persistentDataContainer[key, PersistentDataType.BOOLEAN] = true
-                }
-            }
+        if (shouldConsumeItem(player)) {
+            item.amount--
         }
-
-        player.playSound(
-            player.location,
-            Sound.ENTITY_EGG_THROW,
-            SoundCategory.PLAYERS,
-            0.5F,
-            0.4F / (Random.nextFloat() * 0.4F + 0.8F)
-        )
-
-        if (player.gameMode != GameMode.CREATIVE && player.gameMode != GameMode.SPECTATOR) item.amount--
 
         event.isCancelled = true
     }
@@ -85,24 +68,84 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
     @EventHandler
     private fun onEggLand(event: ThrownEggHatchEvent) {
         val entity = event.egg
-
         val item = entity.item
-        val meta = item.itemMeta as? SpawnEggMeta ?: return
-        val data = meta.persistentDataContainer
-        val isThrowable = data[key, PersistentDataType.BOOLEAN] ?: return
-        if (!isThrowable) return
 
-        val type = EntityType.entries.firstOrNull {
-            item.type.name == "${it.name}_SPAWN_EGG"
-        } ?: return
+        if (!isThrowableEgg(item)) return
 
-        entity.world.spawnEntity(
-            entity.location,
-            type,
-            CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
-        )
+        val entityType = getEntityTypeFromEgg(item) ?: return
+
+        spawnEggEntity(entity, entityType)
 
         event.numHatches = 0
         event.isHatching = false
+    }
+
+    private fun isSpawnEgg(item: ItemStack): Boolean {
+        return item.type.toString().endsWith("_SPAWN_EGG")
+    }
+
+    private fun isThrowableEgg(item: ItemStack): Boolean {
+        val meta = item.itemMeta as? SpawnEggMeta ?: return false
+        return meta.persistentDataContainer[key, PersistentDataType.BOOLEAN] ?: false
+    }
+
+    private fun getEntityTypeFromEgg(item: ItemStack): EntityType? {
+        return EntityType.entries.firstOrNull {
+            item.type.name == "${it.name}_SPAWN_EGG"
+        }
+    }
+
+    private fun throwSpawnEgg(player: Player, item: ItemStack, hand: EquipmentSlot) {
+        val velocity = calculateThrowVelocity(player)
+        val markedItem = createMarkedEggItem(item)
+
+        player.launchProjectile(Egg::class.java, velocity) {
+            it.item = markedItem
+        }
+
+        playThrowSound(player)
+        player.swingHand(hand)
+    }
+
+    private fun calculateThrowVelocity(player: Player): Vector {
+        val direction = player.location.direction
+
+        return direction.add(Vector(
+            triangle(0.0, VARIATION),
+            triangle(0.0, VARIATION),
+            triangle(0.0, VARIATION)
+        )).multiply(POWER).add(player.velocity)
+    }
+
+    private fun createMarkedEggItem(item: ItemStack): ItemStack {
+        return item.clone().apply {
+            amount = 1
+
+            editMeta(SpawnEggMeta::class.java) {
+                it.persistentDataContainer[key, PersistentDataType.BOOLEAN] = true
+            }
+        }
+    }
+
+    private fun playThrowSound(player: Player) {
+        player.playSound(
+            player.location,
+            Sound.ENTITY_EGG_THROW,
+            SoundCategory.PLAYERS,
+            0.5F,
+            0.4F / (Random.nextFloat() * 0.4F + 0.8F)
+        )
+    }
+
+    private fun shouldConsumeItem(player: Player): Boolean {
+        return player.gameMode != GameMode.CREATIVE && player.gameMode != GameMode.SPECTATOR
+    }
+
+    private fun spawnEggEntity(egg: Egg, type: EntityType) {
+        egg.world.spawnEntity(
+            egg.location,
+            type,
+            CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
+        )
     }
 }

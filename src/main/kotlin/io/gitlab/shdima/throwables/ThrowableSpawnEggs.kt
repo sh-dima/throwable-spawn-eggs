@@ -4,10 +4,12 @@ import org.bstats.bukkit.Metrics
 import org.bukkit.GameMode
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.EntityType
+import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.ThrownExpBottle
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
+import org.bukkit.event.entity.EntitySpawnEvent
 import org.bukkit.event.entity.ExpBottleEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.meta.SpawnEggMeta
@@ -73,5 +75,20 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
             type,
             CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
         )
+
+        event.showEffect = false
+    }
+
+    @EventHandler
+    private fun onExpCreate(event: EntitySpawnEvent) {
+        val entity = event.entity as? ExperienceOrb ?: return
+        if (entity.spawnReason != ExperienceOrb.SpawnReason.EXP_BOTTLE) return
+
+        val uuid = entity.sourceEntityId ?: return
+        val bottle = server.getEntity(uuid) as? ThrownExpBottle ?: return
+        val item = bottle.item
+        if (item.itemMeta.persistentDataContainer[key, PersistentDataType.BOOLEAN] != true) return
+
+        event.isCancelled = true
     }
 }

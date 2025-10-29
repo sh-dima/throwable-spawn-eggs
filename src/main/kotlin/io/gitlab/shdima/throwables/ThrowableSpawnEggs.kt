@@ -24,7 +24,7 @@ import kotlin.random.Random
 
 private const val POWER = 1.5
 private const val VARIATION = 0.0172275
-private const val BSTATS_PLUGIN_ID = 27754
+private const val METRICS_PLUGIN_ID = 27754
 
 private fun triangle(min: Double, max: Double): Double {
     return min + max * (Random.nextDouble() - Random.nextDouble())
@@ -42,7 +42,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
 
     private fun initializeMetrics() {
         try {
-            Metrics(this, BSTATS_PLUGIN_ID)
+            Metrics(this, METRICS_PLUGIN_ID)
         } catch (exception: Exception) {
             exception.printStackTrace()
         }

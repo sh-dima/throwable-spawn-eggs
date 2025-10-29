@@ -8,7 +8,7 @@ import org.bukkit.entity.ThrownExpBottle
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
-import org.bukkit.event.entity.ProjectileHitEvent
+import org.bukkit.event.entity.ExpBottleEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.meta.SpawnEggMeta
 import org.bukkit.persistence.PersistentDataType
@@ -55,8 +55,8 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
     }
 
     @EventHandler
-    private fun onEggLand(event: ProjectileHitEvent) {
-        val entity = event.entity as? ThrownExpBottle ?: return
+    private fun onEggLand(event: ExpBottleEvent) {
+        val entity = event.entity
 
         val item = entity.item
         val meta = item.itemMeta as? SpawnEggMeta ?: return

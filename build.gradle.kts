@@ -94,11 +94,23 @@ tasks {
 
     runServer {
         val noProxy = (project.findProperty("noProxy") as? String)?.toBoolean() == true
+        val metricsEnabled = (project.findProperty("metrics") as? String)?.toBoolean() == true
 
         if (!noProxy) {
             downloadPlugins {
                 github("playit-cloud", "playit-minecraft-plugin", "v0.1.4", "playit-minecraft-plugin.jar")
             }
+        }
+
+        doFirst {
+            val metricsConfig = runDirectory.get().asFile.resolve("plugins/bStats/config.yml")
+
+            metricsConfig.parentFile.mkdirs()
+            metricsConfig.writeText("""
+                enabled: $metricsEnabled
+                logFailedRequests: true
+
+            """.trimIndent())
         }
     }
 }

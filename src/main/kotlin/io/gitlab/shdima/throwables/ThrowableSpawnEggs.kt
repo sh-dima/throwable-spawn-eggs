@@ -4,6 +4,7 @@ import org.bstats.bukkit.Metrics
 import org.bukkit.GameMode
 import org.bukkit.NamespacedKey
 import org.bukkit.Sound
+import org.bukkit.SoundCategory
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.ThrownExpBottle
@@ -70,7 +71,13 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
             }
         }
 
-        player.playSound(player.location, Sound.ENTITY_SNOWBALL_THROW, 1F, 1F)
+        player.playSound(
+            player.location,
+            Sound.ENTITY_EGG_THROW,
+            SoundCategory.PLAYERS,
+            0.5F,
+            0.4F / (Random.nextFloat() * 0.4F + 0.8F)
+        )
 
         if (player.gameMode != GameMode.CREATIVE && player.gameMode != GameMode.SPECTATOR) item.amount--
 

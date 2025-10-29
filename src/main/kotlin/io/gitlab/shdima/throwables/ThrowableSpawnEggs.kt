@@ -3,6 +3,7 @@ package io.gitlab.shdima.throwables
 import org.bstats.bukkit.Metrics
 import org.bukkit.GameMode
 import org.bukkit.NamespacedKey
+import org.bukkit.Sound
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.ExperienceOrb
 import org.bukkit.entity.ThrownExpBottle
@@ -15,6 +16,15 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.meta.SpawnEggMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.util.Vector
+import kotlin.random.Random
+
+private const val POWER = 1.5
+private const val VARIATION = 0.0172275
+
+fun triangle(min: Double, max: Double): Double {
+    return min + max * (Random.nextDouble() - Random.nextDouble())
+}
 
 @Suppress("unused")
 class ThrowableSpawnEggs : JavaPlugin(), Listener {
@@ -40,7 +50,17 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
 
         if (!type.toString().endsWith("_SPAWN_EGG")) return
 
-        event.player.launchProjectile<ThrownExpBottle>(ThrownExpBottle::class.java, event.player.location.direction) {
+        val player = event.player
+        val direction = player.location.direction
+        val velocity = direction.add(
+            Vector(
+                triangle(0.0, VARIATION),
+                triangle(0.0, VARIATION),
+                triangle(0.0, VARIATION),
+            )
+        ).multiply(POWER).add(player.velocity)
+
+        player.launchProjectile<ThrownExpBottle>(ThrownExpBottle::class.java, velocity) {
             it.item = item.clone().apply {
                 amount = 1
 
@@ -50,7 +70,8 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
             }
         }
 
-        val player = event.player
+        player.playSound(player.location, Sound.ENTITY_SNOWBALL_THROW, 1F, 1F)
+
         if (player.gameMode != GameMode.CREATIVE && player.gameMode != GameMode.SPECTATOR) item.amount--
 
         event.isCancelled = true

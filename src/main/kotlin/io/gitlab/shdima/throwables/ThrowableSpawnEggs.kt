@@ -26,6 +26,7 @@ private const val POWER = 1.5
 private const val VARIATION = 0.0172275
 private const val METRICS_PLUGIN_ID = 27754
 
+@Suppress("SameParameterValue")
 private fun triangle(min: Double, max: Double): Double {
     return min + max * (Random.nextDouble() - Random.nextDouble())
 }

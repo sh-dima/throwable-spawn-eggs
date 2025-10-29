@@ -10,7 +10,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.event.entity.ProjectileHitEvent
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SpawnEggMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.java.JavaPlugin
@@ -40,7 +39,9 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
         if (!type.toString().endsWith("_SPAWN_EGG")) return
 
         event.player.launchProjectile<ThrownExpBottle>(ThrownExpBottle::class.java, event.player.location.direction) {
-            it.item = ItemStack(type).apply {
+            it.item = item.clone().apply {
+                amount = 1
+
                 editMeta(SpawnEggMeta::class.java) {
                     it.persistentDataContainer[key, PersistentDataType.BOOLEAN] = true
                 }

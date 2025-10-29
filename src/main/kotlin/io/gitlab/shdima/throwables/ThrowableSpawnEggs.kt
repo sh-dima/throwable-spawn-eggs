@@ -1,18 +1,16 @@
 package io.gitlab.shdima.throwables
 
+import com.destroystokyo.paper.event.entity.ThrownEggHatchEvent
 import org.bstats.bukkit.Metrics
 import org.bukkit.GameMode
 import org.bukkit.NamespacedKey
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
+import org.bukkit.entity.Egg
 import org.bukkit.entity.EntityType
-import org.bukkit.entity.ExperienceOrb
-import org.bukkit.entity.ThrownExpBottle
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.CreatureSpawnEvent
-import org.bukkit.event.entity.EntitySpawnEvent
-import org.bukkit.event.entity.ExpBottleEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.meta.SpawnEggMeta
 import org.bukkit.persistence.PersistentDataType
@@ -61,7 +59,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
             )
         ).multiply(POWER).add(player.velocity)
 
-        player.launchProjectile<ThrownExpBottle>(ThrownExpBottle::class.java, velocity) {
+        player.launchProjectile<Egg>(Egg::class.java, velocity) {
             it.item = item.clone().apply {
                 amount = 1
 
@@ -85,8 +83,8 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
     }
 
     @EventHandler
-    private fun onEggLand(event: ExpBottleEvent) {
-        val entity = event.entity
+    private fun onEggLand(event: ThrownEggHatchEvent) {
+        val entity = event.egg
 
         val item = entity.item
         val meta = item.itemMeta as? SpawnEggMeta ?: return
@@ -104,19 +102,7 @@ class ThrowableSpawnEggs : JavaPlugin(), Listener {
             CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
         )
 
-        event.showEffect = false
-    }
-
-    @EventHandler
-    private fun onExpCreate(event: EntitySpawnEvent) {
-        val entity = event.entity as? ExperienceOrb ?: return
-        if (entity.spawnReason != ExperienceOrb.SpawnReason.EXP_BOTTLE) return
-
-        val uuid = entity.sourceEntityId ?: return
-        val bottle = server.getEntity(uuid) as? ThrownExpBottle ?: return
-        val item = bottle.item
-        if (item.itemMeta.persistentDataContainer[key, PersistentDataType.BOOLEAN] != true) return
-
-        event.isCancelled = true
+        event.numHatches = 0
+        event.isHatching = false
     }
 }

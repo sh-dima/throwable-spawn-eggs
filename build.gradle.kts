@@ -93,7 +93,9 @@ tasks {
     }
 
     runServer {
-        if (!project.hasProperty("noplayit")) {
+        val noProxy = (project.findProperty("noProxy") as? String)?.toBoolean() == true
+
+        if (!noProxy) {
             downloadPlugins {
                 github("playit-cloud", "playit-minecraft-plugin", "v0.1.4", "playit-minecraft-plugin.jar")
             }

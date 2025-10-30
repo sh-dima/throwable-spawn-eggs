@@ -3,6 +3,8 @@ Throwable Spawn Eggs
 
 This is a Minecraft Paper plugin that makes every spawn egg throwable for a more fun way to spawn mobs.
 
+This plugin is meant for fun and only affects creative mode. It does not add any way to obtain the spawn eggs in survival.
+
 Links
 -----
 

@@ -8,6 +8,7 @@ Links
 
 * [Source][source]
 * [Modrinth][modrinth]
+* [Metrics][metrics]
 * [E-mail][email]
 
 Disclaimer
@@ -22,6 +23,7 @@ Disclaimer
 
 [source]: https://github.com/sh-dima/throwable-spawn-eggs (The source code of this project)
 [modrinth]: https://modrinth.com/project/throwable-spawn-eggs (This project on Modrinth)
+[metrics]: https://bstats.org/plugin/bukkit/Throwable%20Spawn%20Eggs/27754 (This metrics for this project on bStats)
 
 [minecraft]: https://www.minecraft.net/ (Minecraft)
 [microsoft]: https://www.microsoft.com/ (Microsoft)

@@ -94,7 +94,10 @@ tasks {
 
     runServer {
         val noProxy = (project.findProperty("noProxy") as? String)?.toBoolean() == true
+        val version = project.findProperty("minecraft.version") as? String ?: "1.21.8"
         val metricsEnabled = (project.findProperty("metrics") as? String)?.toBoolean() == true
+
+        minecraftVersion(version)
 
         if (!noProxy) {
             downloadPlugins {

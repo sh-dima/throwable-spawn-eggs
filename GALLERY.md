@@ -1,12 +1,10 @@
 Gallery
 =======
 
-Throwable Spawn Eggs Logo
+[Throwable Spawn Eggs Logo](./assets/images/icons/throwable-spawn-eggs.xcf)
 -------------------------
 
 The logo of the Throwable Spawn Eggs plugin.
-
-![Throwable Spawn Eggs logo](./assets/images/icons/throwable-spawn-eggs.xcf)
 
 Spawning a Creeper
 ------------------

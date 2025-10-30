@@ -10,6 +10,7 @@ Links
 
 * [Source][source]
 * [Modrinth][modrinth]
+* [SpigotMC][spigot]
 * [Metrics][metrics]
 * [E-mail][email]
 
@@ -25,6 +26,7 @@ Disclaimer
 
 [source]: https://github.com/sh-dima/throwable-spawn-eggs (The source code of this project)
 [modrinth]: https://modrinth.com/project/throwable-spawn-eggs (This project on Modrinth)
+[spigot]: https://www.spigotmc.org/resources/throwable-spawn-eggs-paper-only.129864/ (This project on SpigotMC)
 [metrics]: https://bstats.org/plugin/bukkit/Throwable%20Spawn%20Eggs/27754 (The metrics for this project on bStats)
 
 [minecraft]: https://www.minecraft.net/ (Minecraft)

@@ -44,6 +44,7 @@ tasks {
         isPreserveFileTimestamps = false
         isReproducibleFileOrder = true
 
+        from("README.md")
         from("LICENSE")
 
         filePermissions {

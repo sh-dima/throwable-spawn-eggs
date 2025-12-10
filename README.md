@@ -14,21 +14,24 @@ Links
 * [Metrics][metrics]
 * [E-mail][email]
 
+License
+-------
+
+© 2025 [Дима Ш.][dima], [rolyPolyVole][roly]
+
+[Throwable Spawn Eggs](./) is licensed under the [AGPL 3.0](./LICENSE) only.
+
 Disclaimer
 ----------
 
-* [The authors][authors] (not [Mojang][mojang] or [Microsoft][microsoft]) are responsible for the product or service.
-* [The authors][authors] are the publishers and owners.
-* NOT AN OFFICIAL [MINECRAFT][minecraft] PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH [MOJANG][mojang] OR [MICROSOFT][microsoft].
+NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
 
-[authors]: https://github.com/sh-dima/throwable-spawn-eggs/graphs/contributors (The authors of this project)
+[dima]: https://gitlab.com/-/u/24902750
+[roly]: https://rolypolyvole.github.io
+
 [email]: mailto:dima.o.sh@proton.me,yezhanting@gmail.com (E-mail the authors of this project)
 
 [source]: https://github.com/sh-dima/throwable-spawn-eggs (The source code of this project)
 [modrinth]: https://modrinth.com/project/lNeFBjKN (This project on Modrinth)
 [spigot]: https://www.spigotmc.org/resources/throwable-spawn-eggs-paper-only.129864/ (This project on SpigotMC)
 [metrics]: https://bstats.org/plugin/bukkit/Throwable%20Spawn%20Eggs/27754 (The metrics for this project on bStats)
-
-[minecraft]: https://www.minecraft.net/ (Minecraft)
-[microsoft]: https://www.microsoft.com/ (Microsoft)
-[mojang]: https://minecraft.wiki/w/Mojang_Studios (Mojang Studios)

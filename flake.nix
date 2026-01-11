@@ -2,7 +2,7 @@
 	description = "A Minecraft Paper plugin that makes every spawn egg throwable for a more fun way to spawn mobs";
 
 	inputs = {
-		nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+		nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 		flake-utils.url = "github:numtide/flake-utils";
 	};
 

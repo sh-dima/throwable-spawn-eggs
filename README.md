@@ -17,16 +17,16 @@ Links
 License
 -------
 
-© 2025 [Дима Ш.][dima], [rolyPolyVole][roly]
+© 2025-2026 [Дима Ш.][dima], [rolyPolyVole][roly]
 
-[Throwable Spawn Eggs](./) is licensed under the [AGPL 3.0](./LICENSE) only.
+Throwable Spawn Eggs is licensed under the [AGPL 3.0](./LICENSE) only.
 
 Disclaimer
 ----------
 
 NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.
 
-[dima]: https://gitlab.com/-/u/24902750
+[dima]: https://shdima.gitlab.io/
 [roly]: https://rolypolyvole.github.io
 
 [email]: mailto:dima.o.sh@proton.me,yezhanting@gmail.com (E-mail the authors of this project)

@@ -46,6 +46,7 @@ tasks {
 
         from("README.md")
         from("LICENSE")
+        from("NOTICE")
 
         filePermissions {
             user.read = true

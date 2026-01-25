@@ -17,7 +17,8 @@ Links
 License
 -------
 
-© 2025-2026 [Дима Ш.][dima], [rolyPolyVole][roly]
+© 2025-2026 [Дима Ш.][dima]
+© 2025 [rolyPolyVole][roly]
 
 Throwable Spawn Eggs is licensed under the [AGPL 3.0](./LICENSE) only.
 
